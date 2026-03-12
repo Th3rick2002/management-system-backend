@@ -47,7 +47,6 @@ public record ProductCreateDTO(
         @Size(message = "Description must be between 5 and 200 characters", min = 5, max = 200)
         String description,
 
-        @NotBlank
         UUID providerId
 
 ) {
