@@ -34,7 +34,7 @@ public class Provider extends BaseEntity {
 
     @Column(name = "phone")
     @NotBlank
-    @Size(min = 10, max = 20, message = "Phone must be between 10 and 20 characters")
+    @Size(min = 8, max = 20, message = "Phone must be between 10 and 20 characters")
     private String phone;
 
     @Column(name = "email")

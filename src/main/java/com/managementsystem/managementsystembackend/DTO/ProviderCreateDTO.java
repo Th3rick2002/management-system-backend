@@ -15,7 +15,7 @@ public record ProviderCreateDTO(
         @NotBlank
         String address,
 
-        @Size(message = "Phone must be between 10 and 20 characters", min = 10, max = 20)
+        @Size(message = "Phone must be between 10 and 20 characters", min = 8, max = 20)
         @NotBlank
         String phone,
 
