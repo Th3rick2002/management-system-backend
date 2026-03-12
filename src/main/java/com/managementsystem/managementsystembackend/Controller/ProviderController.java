@@ -4,6 +4,7 @@ import com.managementsystem.managementsystembackend.DTO.ProviderCreateDTO;
 import com.managementsystem.managementsystembackend.DTO.ProviderResponseDTO;
 import com.managementsystem.managementsystembackend.DTO.ProviderUpdateDTO;
 import com.managementsystem.managementsystembackend.Services.ProviderService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class ProviderController {
 
     @PostMapping
     public ResponseEntity<ProviderResponseDTO> createProvider(
-            @RequestBody ProviderCreateDTO dto
+            @Valid @RequestBody ProviderCreateDTO dto
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.providerService.createProvider(dto));
     }
@@ -40,7 +41,7 @@ public class ProviderController {
     @PutMapping("{id}")
     public ResponseEntity<ProviderResponseDTO> updateProvider(
             @PathVariable UUID id,
-            @RequestBody ProviderUpdateDTO dto
+            @Valid @RequestBody ProviderUpdateDTO dto
     ) {
         return ResponseEntity.ok(this.providerService.updateProvider(id, dto));
     }

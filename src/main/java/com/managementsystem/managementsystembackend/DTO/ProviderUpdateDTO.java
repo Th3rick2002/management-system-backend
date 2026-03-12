@@ -10,7 +10,7 @@ public record ProviderUpdateDTO(
         @Size(message = "Address must be between 5 and 50 characters", min = 5, max = 50)
         String address,
 
-        @Size(message = "Phone must be between 10 and 20 characters", min = 10, max = 20)
+        @Size(message = "Phone must be between 10 and 20 characters", min = 8, max = 20)
         String phone,
 
         @Email(message = "Email must be valid")
