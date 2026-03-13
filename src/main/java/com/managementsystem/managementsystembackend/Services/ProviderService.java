@@ -25,32 +25,7 @@ import java.util.UUID;
 public class ProviderService implements IProviderService {
     private final ProviderRepository providerRepository;
 
-    @Override
-    public List<ProviderResponseDTO> getAllProviders() {
-        log.info("Getting all providers");
-        List<Provider> providers = this.providerRepository.findAll();
-
-        return providers.stream().map(
-                provider -> new ProviderResponseDTO(
-                        provider.getId(),
-                        provider.getName(),
-                        provider.getAddress(),
-                        provider.getPhone(),
-                        provider.getEmail(),
-                        provider.getStatus(),
-                        provider.getDescription(),
-                        provider.getCreatedAt(),
-                        provider.getUpdatedAt()
-                )
-        ).toList();
-    }
-
-    @Override
-    public ProviderResponseDTO getProviderById(UUID id) {
-        log.info("Getting provider by id: {}", id);
-        Provider provider = this.providerRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Provider not found"));
-
+    private ProviderResponseDTO convertToDTO(Provider provider) {
         return new ProviderResponseDTO(
                 provider.getId(),
                 provider.getName(),
@@ -62,6 +37,23 @@ public class ProviderService implements IProviderService {
                 provider.getCreatedAt(),
                 provider.getUpdatedAt()
         );
+    }
+
+    @Override
+    public List<ProviderResponseDTO> getAllProviders() {
+        List<Provider> providers = this.providerRepository.findAll();
+
+        log.info("Getting all providers");
+        return providers.stream().map(this::convertToDTO).toList();
+    }
+
+    @Override
+    public ProviderResponseDTO getProviderById(UUID id) {
+        Provider provider = this.providerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Provider not found"));
+
+        log.info("Getting provider by id: {}", id);
+        return this.convertToDTO(provider);
     }
 
     @Override
@@ -82,18 +74,7 @@ public class ProviderService implements IProviderService {
 
         this.providerRepository.save(provider);
         log.info("Provider created successfully");
-
-        return new ProviderResponseDTO(
-                provider.getId(),
-                provider.getName(),
-                provider.getAddress(),
-                provider.getPhone(),
-                provider.getEmail(),
-                provider.getStatus(),
-                provider.getDescription(),
-                provider.getCreatedAt(),
-                provider.getUpdatedAt()
-        );
+        return this.convertToDTO(provider);
     }
 
     @Override
@@ -110,21 +91,25 @@ public class ProviderService implements IProviderService {
         existProvider.setPhone(dto.phone());
         existProvider.setEmail(dto.email());
         existProvider.setDescription(dto.description());
-        existProvider.setStatus(ProviderStatus.ACTIVE);
 
         this.providerRepository.save(existProvider);
         log.info("Provider updated successfully");
-        return new ProviderResponseDTO(
-                existProvider.getId(),
-                existProvider.getName(),
-                existProvider.getAddress(),
-                existProvider.getPhone(),
-                existProvider.getEmail(),
-                existProvider.getStatus(),
-                existProvider.getDescription(),
-                existProvider.getCreatedAt(),
-                existProvider.getUpdatedAt()
-        );
+        return this.convertToDTO(existProvider);
+    }
+
+    @Override
+    public ProviderResponseDTO updateProviderStatus(UUID id) {
+        var existProvider = this.providerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Provider not found"));
+
+        var status = existProvider.getStatus() == ProviderStatus.ACTIVE
+                ? ProviderStatus.INACTIVE
+                : ProviderStatus.ACTIVE;
+
+        existProvider.setStatus(status);
+        this.providerRepository.save(existProvider);
+        log.info("Provider status updated successfully");
+        return this.convertToDTO(existProvider);
     }
 
     @Override
