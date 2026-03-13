@@ -46,6 +46,13 @@ public class ProviderController {
         return ResponseEntity.ok(this.providerService.updateProvider(id, dto));
     }
 
+    @PatchMapping("/{id}/toggle-status")
+    public ResponseEntity<ProviderResponseDTO> toggleProductStatus(
+            @PathVariable UUID id
+    ) {
+        return ResponseEntity.ok(this.providerService.updateProviderStatus(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProvider(@PathVariable UUID id) {
         this.providerService.deleteProvider(id);

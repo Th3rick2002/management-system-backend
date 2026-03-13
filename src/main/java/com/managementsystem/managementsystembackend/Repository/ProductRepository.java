@@ -12,14 +12,4 @@ public interface ProductRepository extends JpaRepository<Product, UUID>, JpaSpec
     boolean existsBySku(String sku);
 
     boolean existsBySkuNotAndId(String sku, UUID id);
-
-    Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
-
-    Page<Product> findByCategoryContainingIgnoreCase(String category, Pageable pageable);
-
-    Page<Product> findByNameContainingIgnoreCaseAndCategoryContainingIgnoreCase(
-            String name,
-            String category,
-            Pageable pageable
-    );
 }
