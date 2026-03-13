@@ -180,7 +180,7 @@ public class ProductService implements IProductService {
     @Override
     public void deleteProduct(UUID id) {
         var product = this.productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new NotFoundException("Product not found"));
 
         log.info("Deleting product with id: {}", id);
         this.productRepository.delete(product);
