@@ -113,21 +113,7 @@ public class ProductService implements IProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
         log.info("Getting product with id: {}", id);
-        return new ProductResponseDTO(
-                product.getId(),
-                product.getSku(),
-                product.getName(),
-                product.getStockQuantity(),
-                product.getCategory(),
-                product.getImageUrl(),
-                product.getWeight(),
-                product.getDimensions(),
-                product.getPrice(),
-                product.getDescription(),
-                product.getProvider().getId(),
-                product.getCreatedAt(),
-                product.getUpdatedAt()
-        );
+        return this.convertToDTO(product);
     }
 
     @Override
@@ -159,21 +145,7 @@ public class ProductService implements IProductService {
         this.productRepository.save(product);
 
         log.info("Creating product with sku: {}", dto.sku());
-        return new ProductResponseDTO(
-                product.getId(),
-                product.getSku(),
-                product.getName(),
-                product.getStockQuantity(),
-                product.getCategory(),
-                product.getImageUrl(),
-                product.getWeight(),
-                product.getDimensions(),
-                product.getPrice(),
-                product.getDescription(),
-                product.getProvider().getId(),
-                product.getCreatedAt(),
-                product.getUpdatedAt()
-        );
+        return this.convertToDTO(product);
     }
 
     @Override
@@ -189,13 +161,11 @@ public class ProductService implements IProductService {
         if (existProvider.isEmpty())
             throw new NotFoundException("Provider not found");
 
+        product.setSku(dto.sku());
         product.setName(dto.name());
         product.setStockQuantity(dto.stockQuantity());
         product.setCategory(dto.category());
         product.setImageUrl(dto.imageUrl());
-        product.setWeight(dto.weight());
-        product.setImageUrl(dto.imageUrl());
-        product.setIsActive(true);
         product.setWeight(dto.weight());
         product.setDimensions(dto.dimensions());
         product.setPrice(dto.price());
@@ -204,21 +174,7 @@ public class ProductService implements IProductService {
 
         this.productRepository.save(product);
         log.info("Updating product with id: {}", id);
-        return new ProductResponseDTO(
-                product.getId(),
-                product.getSku(),
-                product.getName(),
-                product.getStockQuantity(),
-                product.getCategory(),
-                product.getImageUrl(),
-                product.getWeight(),
-                product.getDimensions(),
-                product.getPrice(),
-                product.getDescription(),
-                product.getProvider().getId(),
-                product.getCreatedAt(),
-                product.getUpdatedAt()
-        );
+        return this.convertToDTO(product);
     }
 
     @Override

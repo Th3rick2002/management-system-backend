@@ -12,5 +12,6 @@ public interface IProviderService {
     ProviderResponseDTO getProviderById(UUID id);
     ProviderResponseDTO createProvider(ProviderCreateDTO dto);
     ProviderResponseDTO updateProvider(UUID id, ProviderUpdateDTO dto);
+    ProviderResponseDTO updateProviderStatus(UUID id);
     void deleteProvider(UUID id);
 }

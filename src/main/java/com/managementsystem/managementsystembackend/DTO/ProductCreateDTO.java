@@ -48,6 +48,5 @@ public record ProductCreateDTO(
         String description,
 
         UUID providerId
-
 ) {
 }
