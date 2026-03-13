@@ -191,6 +191,6 @@ public class ProductService implements IProductService {
     }
 
     private boolean canProductSKUUpdate(String sku, UUID id) {
-        return this.productRepository.existsBySkuNotAndId(sku, id);
+        return !this.productRepository.existsBySkuNotAndId(sku, id);
     }
 }
