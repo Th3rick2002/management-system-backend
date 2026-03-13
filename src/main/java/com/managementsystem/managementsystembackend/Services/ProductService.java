@@ -151,7 +151,7 @@ public class ProductService implements IProductService {
     @Override
     public ProductResponseDTO updateProduct(UUID id, ProductUpdateDTO dto) {
         var product = this.productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new NotFoundException("Product not found"));
 
         var canUpdateSKU = this.canProductSKUUpdate(dto.sku(), id);
         if(!canUpdateSKU)
